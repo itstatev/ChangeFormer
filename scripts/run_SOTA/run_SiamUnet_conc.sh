@@ -7,10 +7,10 @@
 # Daudt, R. C., Le Saux, B., & Boulch, A. "Fully convolutional siamese networks for change detection". In 2018 25th IEEE International Conference on Image Processing (ICIP) (pp. 4063-4067). IEEE.
 
 #GPUs
-gpus=0
+gpus=1
 
 #Set paths
-checkpoint_root=/media/lidan/ssd2/ChangeFormer/checkpoints
+checkpoint_root=/home/ChangeFormer/checkpoints
 vis_root=/media/lidan/ssd2/ChangeFormer/vis
 data_name=DSIFN #LEVIR, DSIFN
 

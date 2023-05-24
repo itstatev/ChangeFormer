@@ -1,8 +1,7 @@
 import os
-
 import torch
-
-from misc.imutils import save_image
+import cv2
+# from misc.imutils import save_image
 from models.networks import *
 
 
@@ -71,5 +70,4 @@ class CDEvaluator():
             file_name = os.path.join(
                 self.pred_dir, name[i].replace('.jpg', '.png'))
             pred = pred[0].cpu().numpy()
-            save_image(pred, file_name)
-
+            cv2.imwrite(file_name, pred)

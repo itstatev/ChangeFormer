@@ -1,4 +1,5 @@
 import os
+import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -29,10 +30,13 @@ class CDEvaluator():
         print(self.device)
 
         # define some other vars to record the training states
-        self.running_metric = ConfuseMatrixMeter(n_class=self.n_class)
+        self.running_metric = ConfuseMatrixMeter(n_class=self.n_class) 
 
         # define logger file
-        logger_path = os.path.join(args.checkpoint_dir, 'log_test.txt')
+        # print(args.checkpoint_dir)
+        # input()
+        # logger_path = os.path.join(args.checkpoint_dir, 'log.txt')
+        logger_path = 'checkpoints/test/log.txt'
         self.logger = Logger(logger_path)
         self.logger.write_dict_str(args.__dict__)
 
@@ -60,13 +64,13 @@ class CDEvaluator():
             os.mkdir(self.vis_dir)
 
 
-    def _load_checkpoint(self, checkpoint_name='best_ckpt.pt'):
+    def _load_checkpoint(self, checkpoint_name='last_ckpt.pt'):
 
-        if os.path.exists(os.path.join(self.checkpoint_dir, checkpoint_name)):
+        if os.path.exists(os.path.join(self.checkpoint_dir)):
             self.logger.write('loading last checkpoint...\n')
             # load the entire checkpoint
-            checkpoint = torch.load(os.path.join(self.checkpoint_dir, checkpoint_name), map_location=self.device)
-
+            checkpoint = torch.load(os.path.join(self.checkpoint_dir), map_location=self.device)
+            print('Yaaaay, its loaded')
             self.net_G.load_state_dict(checkpoint['model_G_state_dict'])
 
             self.net_G.to(self.device)
@@ -118,12 +122,23 @@ class CDEvaluator():
             vis_pred = utils.make_numpy_grid(self._visualize_pred())
 
             vis_gt = utils.make_numpy_grid(self.batch['L'])
+            # vis_gt_resized = cv2.resize(vis_gt, (vis_pred.shape[1], vis_gt.shape[0]))
+
+            print('vis_input', vis_input.shape)
+            print('vis_resized', vis_gt.shape)
+            input()
+            vis = np.concatenate([vis_input, vis_input2, vis_pred, vis_gt], axis=0)
+
+            # print('vis_inout', vis_input.shape)
+            # print('vis_input2', vis_input2.shape)
+            # print('vis_pred', vis_pred.shape)
+            # print('vis_gt', vis_gt.shape)
+            # input()
             vis = np.concatenate([vis_input, vis_input2, vis_pred, vis_gt], axis=0)
             vis = np.clip(vis, a_min=0.0, a_max=1.0)
             file_name = os.path.join(
                 self.vis_dir, 'eval_' + str(self.batch_id)+'.jpg')
             plt.imsave(file_name, vis)
-
 
     def _collect_epoch_states(self):
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #GPUs
-gpus=0
+gpus=1
 
 #Set paths
 checkpoint_root=/media/lidan/ssd2/ChangeFormer/checkpoints
@@ -25,7 +25,7 @@ multi_scale_infer=False
 shuffle_AB=False
 
 #Initializing from pretrained weights
-pretrain=/media/lidan/ssd2/ChangeFormer/checkpoints/CD_ChangeFormerV6_LEVIR_b16_lr0.0001_adamw_train_test_200_linear_ce_multi_train_True_multi_infer_False_shuffle_AB_False_embed_dim_256/best_ckpt.pt
+pretrain=/home/ChangeFormer/checkpoints/CD_ChangeFormerV6_LEVIR_b16_lr0.0001_adamw_train_test_200_linear_ce_multi_train_True_multi_infer_False_shuffle_AB_False_embed_dim_256/best_ckpt.pt
 
 #Train and Validation splits
 split=train         #trainval

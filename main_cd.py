@@ -37,8 +37,8 @@ if __name__ == '__main__':
 
     # data
     parser.add_argument('--num_workers', default=2, type=int)
-    parser.add_argument('--dataset', default='CDDataset', type=str)
-    parser.add_argument('--data_name', default='LEVIR', type=str)
+    parser.add_argument('--dataset', default='Dataset', type=str)
+    parser.add_argument('--data_name', default='Dataset', type=str)
 
     parser.add_argument('--batch_size', default=8, type=int)
     parser.add_argument('--split', default="train", type=str)
@@ -49,17 +49,17 @@ if __name__ == '__main__':
 
     # model
     parser.add_argument('--n_class', default=2, type=int)
-    parser.add_argument('--embed_dim', default=64, type=int)
+    parser.add_argument('--embed_dim', default=256, type=int)
     parser.add_argument('--pretrain', default=None, type=str)
     parser.add_argument('--multi_scale_train', default=False, type=str)
     parser.add_argument('--multi_scale_infer', default=False, type=str)
     parser.add_argument('--multi_pred_weights', nargs = '+', type = float, default = [0.5, 0.5, 0.5, 0.8, 1.0])
 
-    parser.add_argument('--net_G', default='base_transformer_pos_s4_dd8', type=str,
+    parser.add_argument('--net_G', default='ChangeFormerV6', type=str,
                         help='base_resnet18 | base_transformer_pos_s4 | '
                              'base_transformer_pos_s4_dd8 | '
                              'base_transformer_pos_s4_dd8_dedim8|ChangeFormerV5|SiamUnet_diff')
-    parser.add_argument('--loss', default='ce', type=str)
+    parser.add_argument('--loss', default='ce', type=str) 
 
     # optimizer
     parser.add_argument('--optimizer', default='sgd', type=str)
@@ -74,12 +74,15 @@ if __name__ == '__main__':
     print(args.gpu_ids)
     
     #  checkpoints dir
-    args.checkpoint_dir = os.path.join(args.checkpoint_root, args.project_name)
-    os.makedirs(args.checkpoint_dir, exist_ok=True)
+    args.checkpoint_dir = os.path.join(args.checkpoint_root, 'best_ckpt.pt')
+    # print('checkpoint_dir in main', args.checkpoint_dir)
+    # input()
+    # os.makedirs(args.checkpoint_dir, exist_ok=True)
     #  visualize dir
     args.vis_dir = os.path.join(args.vis_root, args.project_name)
     os.makedirs(args.vis_dir, exist_ok=True)
 
-    train(args)
+    # train(args)
 
-    test(args)
+    print('args in main', args)
+    test(args) 

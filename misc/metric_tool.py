@@ -79,7 +79,7 @@ def cm2F1(confusion_matrix):
     # 1. Accuracy & Class Accuracy
     # ---------------------------------------------------------------------- #
     acc = tp.sum() / (hist.sum() + np.finfo(np.float32).eps)
-
+    
     # recall
     recall = tp / (sum_a1 + np.finfo(np.float32).eps)
     # acc_cls = np.nanmean(recall)
@@ -148,8 +148,11 @@ def get_confuse_matrix(num_classes, label_gts, label_preds):
         :param label_pred: <np.array> prediction
         :return: <np.ndarray> values for confusion matrix
         """
+        print('num_classes', num_classes, 'label_gts', label_gts)
         mask = (label_gt >= 0) & (label_gt < num_classes)
-        hist = np.bincount(num_classes * label_gt[mask].astype(int) + label_pred[mask],
+        smaller_gt = label_gt[:65535]
+        smaller_mask = label_gt[:65535]
+        hist = np.bincount(num_classes * smaller_gt[smaller_mask].astype(int) + label_pred[smaller_mask],
                            minlength=num_classes**2).reshape(num_classes, num_classes)
         return hist
     confusion_matrix = np.zeros((num_classes, num_classes))

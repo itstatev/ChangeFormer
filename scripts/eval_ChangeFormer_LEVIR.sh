@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
 gpus=0
-
 data_name=LEVIR
 net_G=ChangeFormerV6 #This is the best version
 split=test
-vis_root=/media/lidan/ssd2/ChangeFormer/vis
+vis_root=/home/ChangeFormer/vis
 project_name=CD_ChangeFormerV6_LEVIR_b16_lr0.0001_adamw_train_test_200_linear_ce_multi_train_True_multi_infer_False_shuffle_AB_False_embed_dim_256
-checkpoints_root=/media/lidan/ssd2/ChangeFormer/checkpoints
+checkpoints_root=/home/ChangeFormer/checkpoints
 checkpoint_name=best_ckpt.pt
 img_size=256
 embed_dim=256 #Make sure to change the embedding dim (best and default = 256)

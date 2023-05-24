@@ -22,8 +22,8 @@ def main():
 
     # data
     parser.add_argument('--num_workers', default=8, type=int)
-    parser.add_argument('--dataset', default='CDDataset', type=str)
-    parser.add_argument('--data_name', default='LEVIR', type=str)
+    parser.add_argument('--dataset', default='Dataset', type=str)
+    parser.add_argument('--data_name', default='Dataset', type=str)
 
     parser.add_argument('--batch_size', default=1, type=int)
     parser.add_argument('--split', default="test", type=str)
@@ -43,20 +43,22 @@ def main():
     print(args.gpu_ids)
 
     #  checkpoints dir
-    args.checkpoint_dir = os.path.join(args.checkpoints_root, args.project_name)
-    os.makedirs(args.checkpoint_dir, exist_ok=True)
+    # args.checkpoint_dir = os.path.join(args.checkpoints_root, args.project_name)
+    args.checkpoint_dir = 'checkpoints/best_ckpt.pt'
+    # os.makedirs(args.checkpoint_dir, exist_ok=True)
     #  visualize dir
     args.vis_dir = os.path.join(args.vis_root, args.project_name)
-    os.makedirs(args.vis_dir, exist_ok=True)
+    # os.makedirs(args.vis_dir, exist_ok=True)
 
     dataloader = utils.get_loader(args.data_name, img_size=args.img_size,
                                   batch_size=args.batch_size, is_train=False,
                                   split=args.split)
     model = CDEvaluator(args=args, dataloader=dataloader)
 
+    # print(args.checkpoint_name)
+    # input()
     model.eval_models(checkpoint_name=args.checkpoint_name)
 
 
 if __name__ == '__main__':
     main()
-

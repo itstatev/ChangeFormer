@@ -59,10 +59,12 @@ def get_loaders(args):
     return dataloaders
 
 
-def make_numpy_grid(tensor_data, pad_value=0,padding=0):
+def make_numpy_grid(tensor_data, pad_value=0, padding=0):
     tensor_data = tensor_data.detach()
-    vis = utils.make_grid(tensor_data, pad_value=pad_value,padding=padding)
-    vis = np.array(vis.cpu()).transpose((1,2,0))
+    if tensor_data.ndim == 5:
+        tensor_data = tensor_data.squeeze(dim=1)  # Remove the singleton dimension
+    vis = utils.make_grid(tensor_data, pad_value=pad_value, padding=padding)
+    vis = np.array(vis.cpu()).transpose((1, 2, 0))
     if vis.shape[2] == 1:
         vis = np.stack([vis, vis, vis], axis=-1)
     return vis
