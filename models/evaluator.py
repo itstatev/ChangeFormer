@@ -29,6 +29,8 @@ class CDEvaluator():
         print(self.device)
 
         # define some other vars to record the training states
+        # print('n_class', self.n_class)
+        # input()
         self.running_metric = ConfuseMatrixMeter(n_class=self.n_class)
 
         # define logger file
@@ -94,10 +96,15 @@ class CDEvaluator():
         update metric
         """
         target = self.batch['L'].to(self.device).detach()
+        # print('Target shape', target.shape)
         G_pred = self.G_pred.detach()
+        # print('G_pred shape before', G_pred.shape)
         G_pred = torch.argmax(G_pred, dim=1)
-
+        # print('G_pred shape after', G_pred.shape)
         current_score = self.running_metric.update_cm(pr=G_pred.cpu().numpy(), gt=target.cpu().numpy())
+        # print('current score shape', current_score.shape)
+        # input()
+        print('current score', current_score)
         return current_score
 
     def _collect_running_batch_states(self):
@@ -110,14 +117,23 @@ class CDEvaluator():
             message = 'Is_training: %s. [%d,%d],  running_mf1: %.5f\n' %\
                       (self.is_training, self.batch_id, m, running_acc)
             self.logger.write(message)
-
+        import torchvision.transforms.functional as F
         if np.mod(self.batch_id, 100) == 1:
+            print('self batch size', self.batch['L'].shape)
+            print('self batch A size', self.batch['A'].shape)
             vis_input = utils.make_numpy_grid(de_norm(self.batch['A']))
             vis_input2 = utils.make_numpy_grid(de_norm(self.batch['B']))
-
             vis_pred = utils.make_numpy_grid(self._visualize_pred())
+            print('vis_input', vis_input.shape)
+            print('vis_input2', vis_input2.shape)
+            print('vis_pred shape', vis_pred.shape)
+
+            self.batch['L'] = torch.squeeze(self.batch['L'], axis=1).permute(0, 3, 2, 1)
+            # print('self batch size', self.batch['L'].shape)
 
             vis_gt = utils.make_numpy_grid(self.batch['L'])
+            print('vis_gt', vis_gt.shape)
+            # input()          
             vis = np.concatenate([vis_input, vis_input2, vis_pred, vis_gt], axis=0)
             vis = np.clip(vis, a_min=0.0, a_max=1.0)
             file_name = os.path.join(

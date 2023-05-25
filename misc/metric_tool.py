@@ -53,10 +53,15 @@ class ConfuseMatrixMeter(AverageMeter):
 
     def update_cm(self, pr, gt, weight=1):
         """获得当前混淆矩阵，并计算当前F1得分，并更新混淆矩阵"""
+        gt = np.mean(gt, axis=-1)
+        gt = np.squeeze(gt, axis=1)
+        # print('predicted shape', pr.shape)
+        # print('ground truth shape', gt.shape)
+        # input()
         val = get_confuse_matrix(num_classes=self.n_class, label_gts=gt, label_preds=pr)
         self.update(val, weight)
         current_score = cm2F1(val)
-        return current_score
+        return current_score 
 
     def get_scores(self):
         scores_dict = cm2score(self.sum)
@@ -149,6 +154,8 @@ def get_confuse_matrix(num_classes, label_gts, label_preds):
         :return: <np.ndarray> values for confusion matrix
         """
         mask = (label_gt >= 0) & (label_gt < num_classes)
+        # smaller_gt = label_gt[:262143]
+        # smaller_mask = label_gt[:262143]
         hist = np.bincount(num_classes * label_gt[mask].astype(int) + label_pred[mask],
                            minlength=num_classes**2).reshape(num_classes, num_classes)
         return hist

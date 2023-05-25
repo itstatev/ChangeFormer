@@ -2,3 +2,10 @@
 *.DS_Store
 ./sha256
 ./sha256.pub
+Dataset/
+vis/
+samples_DSIFN
+samples_LEVIR
+*.zip
+images
+checkpoints/

@@ -39,7 +39,7 @@ def get_loaders(args):
     split_val = 'val'
     if hasattr(args, 'split_val'):
         split_val = args.split_val
-    if args.dataset == 'CDDataset':
+    if args.dataset == 'Dataset':
         training_set = CDDataset(root_dir=root_dir, split=split,
                                  img_size=args.img_size,is_train=True,
                                  label_transform=label_transform)
