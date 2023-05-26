@@ -8,12 +8,13 @@ from datasets.CD_dataset import CDDataset
 
 
 def get_loader(data_name, img_size=256, batch_size=8, split='test',
-               is_train=False, dataset='CDDataset'):
+               is_train=False, dataset='images'):
     dataConfig = data_config.DataConfig().get_data_config(data_name)
     root_dir = dataConfig.root_dir
     label_transform = dataConfig.label_transform
-
-    if dataset == 'CDDataset':
+    # print('label_transform', type(label_transform))
+    # input()
+    if dataset == 'images':
         data_set = CDDataset(root_dir=root_dir, split=split,
                                  img_size=img_size, is_train=is_train,
                                  label_transform=label_transform)

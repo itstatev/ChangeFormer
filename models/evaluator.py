@@ -109,36 +109,26 @@ class CDEvaluator():
 
     def _collect_running_batch_states(self):
 
-        running_acc = self._update_metric()
+        # running_acc = self._update_metric()
 
         m = len(self.dataloader)
 
-        if np.mod(self.batch_id, 100) == 1:
-            message = 'Is_training: %s. [%d,%d],  running_mf1: %.5f\n' %\
-                      (self.is_training, self.batch_id, m, running_acc)
-            self.logger.write(message)
-        import torchvision.transforms.functional as F
-        if np.mod(self.batch_id, 100) == 1:
-            print('self batch size', self.batch['L'].shape)
-            print('self batch A size', self.batch['A'].shape)
-            vis_input = utils.make_numpy_grid(de_norm(self.batch['A']))
-            vis_input2 = utils.make_numpy_grid(de_norm(self.batch['B']))
-            vis_pred = utils.make_numpy_grid(self._visualize_pred())
-            print('vis_input', vis_input.shape)
-            print('vis_input2', vis_input2.shape)
-            print('vis_pred shape', vis_pred.shape)
 
-            self.batch['L'] = torch.squeeze(self.batch['L'], axis=1).permute(0, 3, 2, 1)
-            # print('self batch size', self.batch['L'].shape)
-
-            vis_gt = utils.make_numpy_grid(self.batch['L'])
-            print('vis_gt', vis_gt.shape)
-            # input()          
-            vis = np.concatenate([vis_input, vis_input2, vis_pred, vis_gt], axis=0)
-            vis = np.clip(vis, a_min=0.0, a_max=1.0)
-            file_name = os.path.join(
-                self.vis_dir, 'eval_' + str(self.batch_id)+'.jpg')
-            plt.imsave(file_name, vis)
+        # message = 'Is_training: %s. [%d,%d],  running_mf1: %.5f\n' %\
+        #             (self.is_training, self.batch_id, m) # removed running_acc (last argument)
+        # self.logger.write(message)
+        print('self batch A', self.batch['A'])
+        input()
+        vis_input = utils.make_numpy_grid(de_norm(self.batch['A']))
+        vis_input2 = utils.make_numpy_grid(de_norm(self.batch['B']))
+        vis_pred = utils.make_numpy_grid(self._visualize_pred())      
+        vis = np.concatenate([vis_input, vis_input2, vis_pred], axis=0)
+        vis = np.clip(vis, a_min=0.0, a_max=1.0)
+        print('vis', vis)
+        input()
+        file_name = os.path.join(
+            self.vis_dir, 'eval_' + str(self.batch_id)+'.jpg')
+        plt.imsave(file_name, vis)
 
 
     def _collect_epoch_states(self):
@@ -175,14 +165,16 @@ class CDEvaluator():
 
         ################## Eval ##################
         ##########################################
-        self.logger.write('Begin evaluation...\n')
-        self._clear_cache()
-        self.is_training = False
-        self.net_G.eval()
+        # self.logger.write('Begin evaluation...\n')
+        # self._clear_cache()
+        # self.is_training = False
+        # self.net_G.eval()
 
         # Iterate over data.
         for self.batch_id, batch in enumerate(self.dataloader, 0):
+            print('batch id', self.batch_id, batch)
+            # input()
             with torch.no_grad():
                 self._forward_pass(batch)
             self._collect_running_batch_states()
-        self._collect_epoch_states()
+        # self._collect_epoch_states()

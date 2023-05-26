@@ -23,6 +23,7 @@ def test(args):
     print('dataloader', dataloader)
     model = CDEvaluator(args=args, dataloader=dataloader)
 
+    # model.visualize()
     model.eval_models()
 
 
@@ -38,10 +39,10 @@ if __name__ == '__main__':
 
     # data
     parser.add_argument('--num_workers', default=2, type=int)
-    parser.add_argument('--dataset', default='Dataset', type=str)
-    parser.add_argument('--data_name', default='Dataset', type=str)
+    parser.add_argument('--dataset', default='images', type=str)
+    parser.add_argument('--data_name', default='images', type=str)
 
-    parser.add_argument('--batch_size', default=8, type=int)
+    parser.add_argument('--batch_size', default=3, type=int)
     parser.add_argument('--split', default="train", type=str)
     parser.add_argument('--split_val', default="val", type=str)
 
@@ -80,7 +81,5 @@ if __name__ == '__main__':
     #  visualize dir
     args.vis_dir = os.path.join(args.vis_root, args.project_name)
     os.makedirs(args.vis_dir, exist_ok=True)
-
-    # train(args)
 
     test(args)
