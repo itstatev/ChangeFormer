@@ -8,12 +8,12 @@ from datasets.CD_dataset import CDDataset
 
 
 def get_loader(data_name, img_size=256, batch_size=8, split='test',
-               is_train=False, dataset='CDDataset'):
+               is_train=False, dataset='Onera'):
     dataConfig = data_config.DataConfig().get_data_config(data_name)
     root_dir = dataConfig.root_dir
     label_transform = dataConfig.label_transform
 
-    if dataset == 'CDDataset':
+    if dataset == 'Onera':
         data_set = CDDataset(root_dir=root_dir, split=split,
                                  img_size=img_size, is_train=is_train,
                                  label_transform=label_transform)
@@ -39,7 +39,7 @@ def get_loaders(args):
     split_val = 'val'
     if hasattr(args, 'split_val'):
         split_val = args.split_val
-    if args.dataset == 'Dataset':
+    if args.dataset == 'Onera':
         training_set = CDDataset(root_dir=root_dir, split=split,
                                  img_size=args.img_size,is_train=True,
                                  label_transform=label_transform)

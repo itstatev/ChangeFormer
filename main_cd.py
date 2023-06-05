@@ -38,8 +38,8 @@ if __name__ == '__main__':
 
     # data
     parser.add_argument('--num_workers', default=2, type=int)
-    parser.add_argument('--dataset', default='Dataset', type=str)
-    parser.add_argument('--data_name', default='Dataset', type=str)
+    parser.add_argument('--dataset', default='Onera', type=str)
+    parser.add_argument('--data_name', default='Onera', type=str)
 
     parser.add_argument('--batch_size', default=8, type=int)
     parser.add_argument('--split', default="train", type=str)
@@ -83,4 +83,4 @@ if __name__ == '__main__':
 
     # train(args)
 
-    test(args)
+    test(args) 
